@@ -40,13 +40,13 @@ export function FAQ() {
   });
 
   return (
-    <section id="faq" className="px-4 py-20 sm:px-6 md:py-28">
+    <section id="faq" className="px-5 py-24 sm:px-6 md:py-32">
       <div className="mx-auto max-w-2xl">
         <div
           ref={headerRef}
-          className={`scroll-reveal mb-10 text-center sm:mb-12 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-12 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-primary">
             FAQ
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
@@ -56,47 +56,52 @@ export function FAQ() {
 
         <div
           ref={listRef}
-          className={`scroll-reveal-stagger flex flex-col ${listVisible ? "visible" : ""}`}
+          className={`scroll-reveal-stagger flex flex-col gap-2 ${listVisible ? "visible" : ""}`}
         >
-          {faqs.map((faq, i) => (
-            <div
-              key={i}
-              className={`border-b border-border transition-colors duration-300 ${
-                openIndex === i ? "bg-card/60" : ""
-              }`}
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex w-full items-center justify-between py-5 text-left"
-              >
-                <span className="pr-6 text-sm font-semibold text-foreground sm:text-base">
-                  {faq.question}
-                </span>
-                <div
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                    openIndex === i
-                      ? "bg-foreground text-background rotate-180"
-                      : "bg-secondary text-muted-foreground"
-                  }`}
-                >
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </div>
-              </button>
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
               <div
-                className={`grid transition-all duration-300 ease-out ${
-                  openIndex === i
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
+                key={i}
+                className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
+                  isOpen
+                    ? "border-primary/20 bg-card shadow-md"
+                    : "border-border/60 bg-card/50 hover:border-border hover:bg-card"
                 }`}
               >
-                <div className="overflow-hidden">
-                  <p className="pb-5 pr-12 text-sm leading-relaxed text-muted-foreground">
-                    {faq.answer}
-                  </p>
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left"
+                >
+                  <span className="pr-6 text-sm font-semibold text-foreground sm:text-base">
+                    {faq.question}
+                  </span>
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                      isOpen
+                        ? "rotate-180 bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground"
+                    }`}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </div>
+                </button>
+                <div
+                  className={`grid transition-all duration-300 ease-out ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-6 pb-5 pr-16 text-sm leading-relaxed text-muted-foreground">
+                      {faq.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

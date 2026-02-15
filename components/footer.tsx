@@ -10,13 +10,13 @@ export function Footer() {
   return (
     <footer
       ref={ref}
-      className={`scroll-reveal border-t border-border px-4 py-12 sm:px-6 sm:py-14 ${isVisible ? "visible" : ""}`}
+      className={`scroll-reveal border-t border-border/50 px-5 py-14 sm:px-6 sm:py-16 ${isVisible ? "visible" : ""}`}
     >
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8">
         {/* Logo */}
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background">
-            <Camera className="h-3.5 w-3.5" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <Camera className="h-4 w-4" />
           </div>
           <span className="font-display text-sm font-bold tracking-tight text-foreground">
             Amtly<span className="text-primary">Photo</span>
@@ -27,26 +27,29 @@ export function Footer() {
         <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
           <Link
             href="/impressum"
-            className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            className="rounded-lg px-3 py-1.5 font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
           >
             Impressum
           </Link>
           <Link
             href="/datenschutz"
-            className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            className="rounded-lg px-3 py-1.5 font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
           >
             Datenschutzerklaerung
           </Link>
           <a
             href="#faq"
-            className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            className="rounded-lg px-3 py-1.5 font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
           >
             FAQ
           </a>
         </nav>
 
+        {/* Divider */}
+        <div className="h-px w-full max-w-xs bg-border/50" />
+
         {/* Copyright */}
-        <div className="text-center text-xs text-muted-foreground">
+        <div className="text-center text-xs leading-relaxed text-muted-foreground">
           <p>
             Kostenloser Service zur Erstellung professioneller Passfotos mit KI.
           </p>

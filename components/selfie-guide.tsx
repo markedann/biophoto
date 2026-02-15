@@ -64,19 +64,22 @@ export function SelfieGuide() {
   });
 
   return (
-    <section id="selfie-guide" className="relative bg-card/50 px-4 py-20 sm:px-6 md:py-28">
+    <section id="selfie-guide" className="noise-overlay relative px-5 py-24 sm:px-6 md:py-32">
+      {/* Subtle section background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-secondary/30" />
+
       <div className="mx-auto max-w-5xl">
         <div
           ref={headerRef}
-          className={`scroll-reveal mb-12 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-14 text-center sm:mb-16 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-primary">
             Vorbereitung
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             So machst du das perfekte Selfie
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
+          <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
             Befolge diese einfachen Tipps, damit unsere KI das bestmoegliche
             Passfoto fuer dich erstellen kann.
           </p>
@@ -85,17 +88,17 @@ export function SelfieGuide() {
         {/* Good vs Bad example photos */}
         <div
           ref={examplesRef}
-          className={`scroll-reveal mb-10 grid gap-4 sm:mb-14 sm:grid-cols-2 ${examplesVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-12 grid gap-5 sm:mb-16 sm:grid-cols-2 ${examplesVisible ? "visible" : ""}`}
         >
           {/* Good example */}
-          <div className="group overflow-hidden rounded-2xl border-2 border-primary/30 bg-card">
+          <div className="group overflow-hidden rounded-2xl border-2 border-primary/25 bg-card">
             <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
               <img
                 src="/images/selfie-good.jpg"
                 alt="Gutes Beispiel: Gleichmaessig beleuchtetes Selfie frontal in die Kamera"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-xl bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground shadow-md">
                 <Check className="h-3.5 w-3.5" />
                 Gutes Beispiel
               </div>
@@ -108,14 +111,14 @@ export function SelfieGuide() {
           </div>
 
           {/* Bad example */}
-          <div className="group overflow-hidden rounded-2xl border-2 border-destructive/30 bg-card">
+          <div className="group overflow-hidden rounded-2xl border-2 border-destructive/25 bg-card">
             <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
               <img
                 src="/images/selfie-bad.jpg"
                 alt="Schlechtes Beispiel: Kopfbedeckung, seitlicher Winkel, schlechte Beleuchtung"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-destructive px-3 py-1.5 text-xs font-bold text-destructive-foreground">
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-xl bg-destructive px-3 py-1.5 text-xs font-bold text-destructive-foreground shadow-md">
                 <X className="h-3.5 w-3.5" />
                 Schlechtes Beispiel
               </div>
@@ -131,14 +134,14 @@ export function SelfieGuide() {
         {/* Tips grid */}
         <div
           ref={tipsRef}
-          className={`scroll-reveal-stagger mb-10 grid gap-4 sm:mb-14 sm:grid-cols-2 lg:grid-cols-4 ${tipsVisible ? "visible" : ""}`}
+          className={`scroll-reveal-stagger mb-12 grid gap-4 sm:mb-16 sm:grid-cols-2 lg:grid-cols-4 ${tipsVisible ? "visible" : ""}`}
         >
           {tips.map((tip) => (
             <div
               key={tip.title}
-              className="group rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-lg"
+              className="group rounded-2xl border border-border/60 bg-card p-6 transition-all duration-300 hover:border-primary/20 hover:shadow-lg"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/20">
                 <tip.icon className="h-5 w-5" />
               </div>
               <h3 className="mb-1.5 text-sm font-semibold text-foreground">
@@ -154,14 +157,16 @@ export function SelfieGuide() {
         {/* Do / Don't */}
         <div
           ref={listsRef}
-          className={`scroll-reveal-stagger grid gap-4 sm:grid-cols-2 ${listsVisible ? "visible" : ""}`}
+          className={`scroll-reveal-stagger grid gap-5 sm:grid-cols-2 ${listsVisible ? "visible" : ""}`}
         >
-          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-7">
-            <h3 className="mb-5 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary">
-              <Check className="h-4 w-4" />
+          <div className="rounded-2xl border border-primary/15 bg-primary/[0.04] p-7">
+            <h3 className="mb-5 flex items-center gap-2.5 text-sm font-bold uppercase tracking-wider text-primary">
+              <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/15">
+                <Check className="h-3.5 w-3.5" />
+              </div>
               Richtig
             </h3>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3.5">
               {doList.map((item) => (
                 <li
                   key={item}
@@ -176,12 +181,14 @@ export function SelfieGuide() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 sm:p-7">
-            <h3 className="mb-5 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-destructive">
-              <X className="h-4 w-4" />
+          <div className="rounded-2xl border border-destructive/15 bg-destructive/[0.04] p-7">
+            <h3 className="mb-5 flex items-center gap-2.5 text-sm font-bold uppercase tracking-wider text-destructive">
+              <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-destructive/15">
+                <X className="h-3.5 w-3.5" />
+              </div>
               Vermeiden
             </h3>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3.5">
               {dontList.map((item) => (
                 <li
                   key={item}

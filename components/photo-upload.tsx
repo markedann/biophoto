@@ -121,7 +121,6 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
     setCurrentStep(steps.length - 1);
   }, [elapsed, steps]);
 
-  // Cycle through waiting messages when on the last step
   const isLastStep = currentStep === steps.length - 1;
   useEffect(() => {
     if (!isLastStep) return;
@@ -132,8 +131,6 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
   }, [isLastStep]);
 
   const totalDuration = steps.reduce((s, step) => s + step.duration, 0);
-  // Asymptotic progress: moves quickly at first, then slows down and never fully stops.
-  // If API takes longer than estimated totalDuration, progress keeps creeping toward 99%.
   const rawPercent = (elapsed / totalDuration) * 100;
   const progressPercent = rawPercent <= 90
     ? rawPercent
@@ -142,17 +139,17 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
   const StepIcon = steps[currentStep].icon;
 
   return (
-    <div className="flex flex-col items-center px-4 py-10 sm:px-6 sm:py-16 md:px-8 md:py-20">
+    <div className="flex flex-col items-center px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-20">
       {/* Animated circle */}
-      <div className="relative mb-6 sm:mb-8">
-        <svg className="h-24 w-24 sm:h-28 sm:w-28" viewBox="0 0 120 120">
+      <div className="relative mb-8 sm:mb-10">
+        <svg className="h-28 w-28 sm:h-32 sm:w-32" viewBox="0 0 120 120">
           <circle
             cx="60"
             cy="60"
             r="52"
             fill="none"
             stroke="hsl(var(--border))"
-            strokeWidth="6"
+            strokeWidth="5"
           />
           <circle
             cx="60"
@@ -160,7 +157,7 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
             r="52"
             fill="none"
             stroke="hsl(var(--primary))"
-            strokeWidth="6"
+            strokeWidth="5"
             strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 52}`}
             strokeDashoffset={`${2 * Math.PI * 52 * (1 - progressPercent / 100)}`}
@@ -170,7 +167,7 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <StepIcon className="h-6 w-6 text-primary" />
-          <span className="mt-1 text-xs font-semibold text-muted-foreground">
+          <span className="mt-1.5 text-xs font-semibold text-muted-foreground">
             {Math.round(progressPercent)}%
           </span>
         </div>
@@ -180,7 +177,7 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
       <p className="mb-2 text-center text-sm font-semibold text-foreground animate-fade-in-up sm:text-base" key={isLastStep ? waitMsgIndex : currentStep}>
         {isLastStep ? waitingMessages[waitMsgIndex] : steps[currentStep].label}
       </p>
-      <p className="mb-6 text-center text-xs text-muted-foreground sm:mb-8 sm:text-sm">
+      <p className="mb-8 text-center text-xs text-muted-foreground sm:mb-10 sm:text-sm">
         {Math.round(elapsed)} Sek. vergangen
       </p>
 
@@ -192,7 +189,7 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
           return (
             <div
               key={i}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all ${
+              className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm transition-all ${
                 isActive
                   ? "bg-primary/10 text-foreground font-medium"
                   : isCompleted
@@ -201,7 +198,7 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
               }`}
             >
               <div
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-all ${
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-all ${
                   isCompleted
                     ? "bg-accent text-accent-foreground"
                     : isActive
@@ -250,7 +247,6 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
   const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-  // Initialize Turnstile widget once the script is loaded
   const initTurnstile = useCallback(() => {
     if (
       !window.turnstile ||
@@ -278,7 +274,6 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
     );
   }, [SITE_KEY]);
 
-  // Check rate limit on mount
   useEffect(() => {
     fetch("/api/rate-limit")
       .then((r) => r.json())
@@ -288,19 +283,15 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
           setStatus("rate-limited");
         }
       })
-      .catch(() => {
-        // Fail open
-      });
+      .catch(() => {});
   }, []);
 
-  // Countdown timer for rate-limited state
   useEffect(() => {
     if (resetCountdown <= 0) return;
     const timer = setInterval(() => {
       setResetCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          // Automatically unlock when timer expires
           setStatus("idle");
           return 0;
         }
@@ -378,7 +369,6 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       formData.append("photoType", photoType);
       formData.append("personType", personType);
 
-      // Attach Turnstile token if available
       if (turnstileToken.current) {
         formData.append("turnstileToken", turnstileToken.current);
       }
@@ -390,11 +380,9 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
       const data = await res.json();
 
-      // Handle rate limiting
       if (res.status === 429 && data.rateLimited) {
         setResetCountdown(data.resetInSeconds || 86400);
         setStatus("rate-limited");
-        // Reset Turnstile for next attempt
         if (turnstileWidgetId.current && window.turnstile) {
           window.turnstile.reset(turnstileWidgetId.current);
           turnstileToken.current = null;
@@ -402,7 +390,6 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
         return;
       }
 
-      // Handle Turnstile failure
       if (res.status === 403) {
         setError(data.error || "Sicherheitspruefung fehlgeschlagen.");
         setStatus("error");
@@ -438,7 +425,6 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
     setError(null);
     fileRef.current = null;
     if (fileInputRef.current) fileInputRef.current.value = "";
-    // photoType is preserved on reset
   };
 
   const handleDownload = async () => {
@@ -465,7 +451,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   };
 
   return (
-    <section id="upload" className="relative px-4 py-20 sm:px-6 md:py-28" ref={ref}>
+    <section id="upload" className="relative px-5 py-24 sm:px-6 md:py-32" ref={ref}>
       {/* Cloudflare Turnstile invisible widget */}
       {SITE_KEY && (
         <Script
@@ -479,26 +465,26 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       <div className="mx-auto max-w-2xl">
         <div
           ref={headerAnimRef}
-          className={`scroll-reveal mb-10 text-center sm:mb-12 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-12 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-primary">
             Upload
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             Foto hochladen
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-base text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
             Lade dein Selfie hoch und erhalte ein professionelles Passfoto.
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg transition-shadow duration-300 hover:shadow-xl">
+        <div className="overflow-hidden rounded-3xl border border-border/60 bg-card shadow-xl transition-shadow duration-500 hover:shadow-2xl">
           {/* Idle / Drop Zone */}
           {status === "idle" && (
             <div className="flex flex-col">
               {/* Photo Type Selector */}
-              <div className="border-b border-border px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6">
-                <p className="mb-3 text-sm font-semibold text-foreground">
+              <div className="border-b border-border/50 px-5 py-5 sm:px-7 sm:py-6 md:px-8 md:py-7">
+                <p className="mb-3.5 text-sm font-semibold text-foreground">
                   Welches Foto brauchst du?
                 </p>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -510,16 +496,16 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                         key={option.value}
                         type="button"
                         onClick={() => setPhotoType(option.value)}
-                        className={`flex items-start gap-3 rounded-xl border-2 px-4 py-3.5 text-left transition-all ${
+                        className={`flex items-start gap-3 rounded-2xl border-2 px-4 py-4 text-left transition-all duration-200 ${
                           isSelected
                             ? "border-primary bg-primary/5 shadow-sm"
-                            : "border-border bg-card hover:border-muted-foreground/30 hover:bg-secondary/50"
+                            : "border-border/60 bg-card hover:border-muted-foreground/25 hover:bg-secondary/40"
                         }`}
                       >
                         <div
-                          className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                          className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-200 ${
                             isSelected
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
                               : "bg-secondary text-muted-foreground"
                           }`}
                         >
@@ -541,7 +527,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                           className={`ml-auto mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
                             isSelected
                               ? "border-primary bg-primary"
-                              : "border-muted-foreground/30 bg-card"
+                              : "border-muted-foreground/25 bg-card"
                           }`}
                         >
                           {isSelected && (
@@ -554,7 +540,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 </div>
 
                 {photoType === "biometric" && (
-                  <div className="mt-3 flex items-start gap-2 rounded-lg bg-accent/10 px-3 py-2.5">
+                  <div className="mt-3.5 flex items-start gap-2.5 rounded-xl bg-accent/10 px-4 py-3">
                     <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
                     <p className="text-xs leading-relaxed text-accent">
                       <span className="font-semibold">Hinweis:</span> Bei biometrischen Fotos wird Gesichtsbehaarung (Bart) automatisch entfernt, um den offiziellen Anforderungen zu entsprechen.
@@ -564,8 +550,8 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
               </div>
 
               {/* Person Type Selector */}
-              <div className="border-b border-border px-4 py-4 sm:px-6 md:px-8 md:py-5">
-                <div className="flex items-center gap-2 mb-3">
+              <div className="border-b border-border/50 px-5 py-4 sm:px-7 md:px-8 md:py-5">
+                <div className="mb-3 flex items-center gap-2">
                   <Users className="h-3.5 w-3.5 text-muted-foreground" />
                   <p className="text-sm font-semibold text-foreground">
                     Wer ist auf dem Foto?
@@ -579,16 +565,16 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                         key={option.value}
                         type="button"
                         onClick={() => setPersonType(option.value)}
-                        className={`flex flex-col items-center gap-1.5 rounded-xl border-2 px-2 py-3 text-center transition-all ${
+                        className={`flex flex-col items-center gap-1.5 rounded-xl border-2 px-2 py-3 text-center transition-all duration-200 ${
                           isSelected
                             ? "border-primary bg-primary/5 shadow-sm"
-                            : "border-border bg-card hover:border-muted-foreground/30 hover:bg-secondary/50"
+                            : "border-border/60 bg-card hover:border-muted-foreground/25 hover:bg-secondary/40"
                         }`}
                       >
                         <div
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold transition-colors ${
+                          className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold transition-all duration-200 ${
                             isSelected
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
                               : "bg-secondary text-muted-foreground"
                           }`}
                         >
@@ -616,16 +602,18 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 onDragLeave={() => setDragActive(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`flex cursor-pointer flex-col items-center justify-center px-4 py-10 sm:px-8 sm:py-16 transition-all ${
+                className={`flex cursor-pointer flex-col items-center justify-center px-5 py-12 transition-all duration-200 sm:px-8 sm:py-16 ${
                   dragActive
                     ? "bg-primary/5"
-                    : "hover:bg-secondary/50"
+                    : "hover:bg-secondary/30"
                 }`}
               >
-                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Upload className="h-7 w-7" />
+                <div className={`mb-6 flex h-18 w-18 items-center justify-center rounded-3xl transition-all duration-300 ${
+                  dragActive ? "bg-primary/15 text-primary scale-110" : "bg-primary/10 text-primary"
+                }`}>
+                  <Upload className="h-8 w-8" />
                 </div>
-                <p className="mb-1.5 text-base font-semibold text-foreground">
+                <p className="mb-2 text-base font-semibold text-foreground">
                   Foto hierher ziehen oder klicken
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -647,10 +635,10 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Preview */}
           {status === "preview" && originalUrl && (
-            <div className="p-4 sm:p-6 md:p-8">
+            <div className="p-5 sm:p-7 md:p-8">
               {/* Selected type badge */}
-              <div className="mb-4 flex items-center justify-center">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <div className="mb-5 flex items-center justify-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
                   {photoType === "biometric" ? (
                     <><FileCheck className="h-3 w-3" /> Biometrisches Passfoto</>
                   ) : (
@@ -658,7 +646,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                   )}
                 </span>
               </div>
-              <div className="relative mx-auto mb-6 aspect-[3/4] w-full max-w-xs overflow-hidden rounded-xl border border-border bg-secondary">
+              <div className="relative mx-auto mb-7 aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-border/60 bg-secondary shadow-lg">
                 <img
                   src={originalUrl}
                   alt="Hochgeladenes Foto"
@@ -666,7 +654,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 />
                 <button
                   onClick={handleReset}
-                  className="absolute right-2.5 top-2.5 rounded-lg bg-card/80 p-1.5 text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-card hover:text-foreground"
+                  className="absolute right-3 top-3 rounded-xl bg-card/80 p-2 text-muted-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-card hover:text-foreground"
                   aria-label="Entfernen"
                 >
                   <X className="h-4 w-4" />
@@ -674,7 +662,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
               </div>
               <button
                 onClick={handleGenerate}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
+                className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/25 active:scale-[0.98]"
               >
                 <Sparkles className="h-4.5 w-4.5" />
                 {photoType === "biometric" ? "Passfoto generieren" : "Bewerbungsfoto generieren"}
@@ -689,9 +677,9 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Done */}
           {status === "done" && resultUrl && (
-            <div className="p-4 sm:p-6 md:p-8">
+            <div className="p-5 sm:p-7 md:p-8">
               <div className="mb-2 flex items-center justify-center">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
                   {photoType === "biometric" ? (
                     <><FileCheck className="h-3 w-3" /> Biometrisches Passfoto</>
                   ) : (
@@ -699,18 +687,18 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                   )}
                 </span>
               </div>
-              <div className="mb-5 flex items-center justify-center gap-2 text-sm font-semibold text-accent">
+              <div className="mb-6 flex items-center justify-center gap-2 text-sm font-semibold text-accent">
                 <CheckCircle2 className="h-4.5 w-4.5" />
                 {photoType === "biometric" ? "Dein Passfoto ist fertig!" : "Dein Bewerbungsfoto ist fertig!"}
               </div>
 
-              <div className="mb-6 grid grid-cols-2 gap-4">
+              <div className="mb-7 grid grid-cols-2 gap-4">
                 {originalUrl && (
                   <div>
-                    <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    <p className="mb-2.5 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                       Vorher
                     </p>
-                    <div className="aspect-[3/4] overflow-hidden rounded-xl border border-border bg-secondary">
+                    <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-border/60 bg-secondary">
                       <img
                         src={originalUrl}
                         alt="Originalbild"
@@ -720,10 +708,10 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                   </div>
                 )}
                 <div>
-                  <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                  <p className="mb-2.5 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                     Nachher
                   </p>
-                  <div className="aspect-[3/4] overflow-hidden rounded-xl border border-accent/30 bg-accent/5">
+                  <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-accent/25 bg-accent/5 shadow-md">
                     <img
                       src={resultUrl}
                       alt="Generiertes Passfoto"
@@ -733,17 +721,17 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <button
                   onClick={handleDownload}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl active:scale-[0.98]"
                 >
                   <Download className="h-4 w-4" />
                   Herunterladen
                 </button>
                 <button
                   onClick={handleReset}
-                  className="flex items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-sm font-semibold text-foreground transition-all hover:bg-secondary"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-border/60 px-5 py-3.5 text-sm font-semibold text-foreground transition-all hover:bg-secondary"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                   Neu
@@ -754,18 +742,18 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Rate Limited */}
           {status === "rate-limited" && (
-            <div className="flex flex-col items-center justify-center px-6 py-16 md:px-8">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+            <div className="flex flex-col items-center justify-center px-6 py-20 md:px-8">
+              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-accent/10 text-accent">
                 <ShieldAlert className="h-7 w-7" />
               </div>
-              <p className="mb-1.5 text-base font-semibold text-foreground">
+              <p className="mb-2 text-base font-semibold text-foreground">
                 Tageslimit erreicht
               </p>
-              <p className="mb-5 max-w-sm text-center text-sm text-muted-foreground">
+              <p className="mb-6 max-w-sm text-center text-sm leading-relaxed text-muted-foreground">
                 Sie haben Ihr kostenloses Foto fuer heute bereits generiert. Versuchen Sie es morgen erneut.
               </p>
               {resetCountdown > 0 && (
-                <div className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-secondary/50 px-4 py-3 sm:flex-row sm:gap-2 sm:px-5">
+                <div className="flex flex-col items-center gap-2 rounded-2xl border border-border/60 bg-secondary/50 px-5 py-3.5 sm:flex-row sm:gap-3 sm:px-6">
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm font-semibold tabular-nums text-foreground">
@@ -784,19 +772,19 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Error */}
           {status === "error" && (
-            <div className="flex flex-col items-center justify-center px-6 py-16 md:px-8">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
+            <div className="flex flex-col items-center justify-center px-6 py-20 md:px-8">
+              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-destructive/10 text-destructive">
                 <AlertCircle className="h-7 w-7" />
               </div>
-              <p className="mb-1.5 text-base font-semibold text-foreground">
+              <p className="mb-2 text-base font-semibold text-foreground">
                 Fehler aufgetreten
               </p>
-              <p className="mb-6 max-w-sm text-center text-sm text-muted-foreground">
+              <p className="mb-7 max-w-sm text-center text-sm leading-relaxed text-muted-foreground">
                 {error}
               </p>
               <button
                 onClick={handleReset}
-                className="rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
+                className="rounded-2xl bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl active:scale-[0.98]"
               >
                 Erneut versuchen
               </button>
