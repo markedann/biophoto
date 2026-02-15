@@ -1,4 +1,7 @@
+"use client";
+
 import { Upload, Cpu, Download } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const steps = [
   {
@@ -25,6 +28,9 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: gridRef, isVisible: gridVisible } = useAnimateOnScroll({ threshold: 0.1 });
+
   return (
     <section id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Background accent */}
@@ -33,7 +39,10 @@ export function HowItWorks() {
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-8 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+        >
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Anleitung
           </span>
@@ -45,7 +54,10 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="relative grid gap-6 md:grid-cols-3">
+        <div
+          ref={gridRef}
+          className={`scroll-reveal-stagger relative grid gap-6 md:grid-cols-3 ${gridVisible ? "visible" : ""}`}
+        >
           {/* Connector line */}
           <div className="pointer-events-none absolute left-0 right-0 top-[3.5rem] z-0 hidden md:block">
             <div className="mx-20 h-px bg-gradient-to-r from-transparent via-border to-transparent" />

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const faqs = [
   {
@@ -33,11 +34,16 @@ const faqs = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: listRef, isVisible: listVisible } = useAnimateOnScroll({ threshold: 0.05 });
 
   return (
     <section id="faq" className="px-4 py-14 sm:px-5 md:py-24">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-8 text-center sm:mb-10">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-8 text-center sm:mb-10 ${headerVisible ? "visible" : ""}`}
+        >
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             FAQ
           </span>
@@ -46,11 +52,14 @@ export function FAQ() {
           </h2>
         </div>
 
-        <div className="space-y-2">
+        <div
+          ref={listRef}
+          className={`scroll-reveal-stagger flex flex-col gap-2 ${listVisible ? "visible" : ""}`}
+        >
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl border transition-all ${
+              className={`overflow-hidden rounded-xl border transition-all duration-300 ${
                 openIndex === i
                   ? "border-primary/30 bg-card shadow-sm"
                   : "border-border bg-card hover:border-primary/20"
@@ -64,21 +73,21 @@ export function FAQ() {
                   {faq.question}
                 </span>
                 <div
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all ${
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
                     openIndex === i
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary text-muted-foreground"
                   }`}
                 >
                   <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform ${
+                    className={`h-3.5 w-3.5 transition-transform duration-300 ${
                       openIndex === i ? "rotate-180" : ""
                     }`}
                   />
                 </div>
               </button>
               <div
-                className={`grid transition-all duration-300 ${
+                className={`grid transition-all duration-300 ease-out ${
                   openIndex === i
                     ? "grid-rows-[1fr] opacity-100"
                     : "grid-rows-[0fr] opacity-0"

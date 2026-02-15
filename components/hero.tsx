@@ -13,7 +13,7 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
 
       {/* Grid overlay */}
       <div
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.02]"
         style={{
           backgroundImage:
             "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
@@ -22,7 +22,7 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
       />
 
       <div className="mx-auto max-w-4xl text-center">
-        <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
+        <div className="animate-hero-enter mb-6 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/20">
             <Sparkles className="h-3 w-3 text-accent" />
           </span>
@@ -31,7 +31,7 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           <span className="font-medium">Keine Registrierung</span>
         </div>
 
-        <h1 className="text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-7xl">
+        <h1 className="animate-hero-enter-delay-1 text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-7xl">
           Dein professionelles
           <br />
           <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
@@ -40,26 +40,26 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           in Sekunden
         </h1>
 
-        <p className="mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base md:text-lg">
+        <p className="animate-hero-enter-delay-2 mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base md:text-lg">
           Lade ein Selfie hoch und unsere KI erstellt ein biometrisches Passfoto
           nach deutschen Standards -- fuer Reisepass, Ausweis und Bewerbungen.
         </p>
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row">
+        <div className="animate-hero-enter-delay-3 mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row">
           <button
             onClick={onScrollToUpload}
-            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8 sm:py-4 sm:text-base"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative flex items-center gap-2.5">
               Jetzt Foto erstellen
-              <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
             </span>
           </button>
         </div>
 
         {/* Stats row */}
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:mt-16 sm:gap-6">
+        <div className="animate-hero-enter-delay-3 mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:mt-16 sm:gap-6">
           {[
             { icon: Zap, value: "< 30s", label: "Ergebnis" },
             { icon: Shield, value: "DSGVO", label: "Konform" },

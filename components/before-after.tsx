@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const examples = [
   {
@@ -16,6 +17,9 @@ const examples = [
 ];
 
 export function BeforeAfter() {
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: gridRef, isVisible: gridVisible } = useAnimateOnScroll({ threshold: 0.1 });
+
   return (
     <section id="before-after" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Subtle glow */}
@@ -24,7 +28,10 @@ export function BeforeAfter() {
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-8 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+        >
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Ergebnisse
           </span>
@@ -36,7 +43,10 @@ export function BeforeAfter() {
           </p>
         </div>
 
-        <div className="grid gap-5 sm:gap-8 md:grid-cols-2">
+        <div
+          ref={gridRef}
+          className={`scroll-reveal-stagger grid gap-5 sm:gap-8 md:grid-cols-2 ${gridVisible ? "visible" : ""}`}
+        >
           {examples.map((example, idx) => (
             <div
               key={idx}
@@ -48,7 +58,7 @@ export function BeforeAfter() {
                   <div className="absolute left-3 top-3 z-10 rounded-md bg-background/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
                     Vorher
                   </div>
-                  <div className="aspect-[3/4] overflow-hidden">
+                  <div className="aspect-[3/4] overflow-hidden bg-secondary">
                     <img
                       src={example.before}
                       alt={`Vorher - ${example.label}`}
@@ -69,7 +79,7 @@ export function BeforeAfter() {
                   <div className="absolute right-3 top-3 z-10 rounded-md bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground backdrop-blur-sm">
                     Nachher
                   </div>
-                  <div className="aspect-[3/4] overflow-hidden">
+                  <div className="aspect-[3/4] overflow-hidden bg-secondary">
                     <img
                       src={example.after}
                       alt={`Nachher - ${example.label}`}

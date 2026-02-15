@@ -117,16 +117,6 @@ export async function POST(req: NextRequest) {
     const mimeType = file.type || "image/jpeg";
     const dataUri = `data:${mimeType};base64,${base64}`;
 
-    console.log(
-      "[v0] Submitting to nano-banana-pro/edit (sync) | type:",
-      photoType,
-      "| person:",
-      safePerson,
-      "| size:",
-      Math.round(arrayBuffer.byteLength / 1024),
-      "KB"
-    );
-
     // Synchronous call -- fal.run returns the result directly (no queue polling)
     const response = await fetch(FAL_RUN_URL, {
       method: "POST",
@@ -156,8 +146,6 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    console.log("[v0] Response keys:", Object.keys(data));
-
     const imageUrl = data.images?.[0]?.url;
     if (!imageUrl) {
       console.error("[v0] No image in result:", JSON.stringify(data).slice(0, 300));
@@ -167,7 +155,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("[v0] Done! Image URL:", imageUrl.slice(0, 80));
     return NextResponse.json({ image: imageUrl });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);

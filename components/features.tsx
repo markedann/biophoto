@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Camera,
   Download,
@@ -6,6 +8,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const features = [
   {
@@ -47,10 +50,16 @@ const features = [
 ];
 
 export function Features() {
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: gridRef, isVisible: gridVisible } = useAnimateOnScroll({ threshold: 0.05 });
+
   return (
     <section id="features" className="relative px-4 py-14 sm:px-5 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-8 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+        >
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary sm:mb-4">
             Vorteile
           </span>
@@ -62,7 +71,10 @@ export function Features() {
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={gridRef}
+          className={`scroll-reveal-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${gridVisible ? "visible" : ""}`}
+        >
           {features.map((feature) => (
             <div
               key={feature.title}
@@ -72,7 +84,7 @@ export function Features() {
               <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
               <div className="relative">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary transition-colors group-hover:bg-primary/15">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary transition-colors duration-300 group-hover:bg-primary/15">
                   <feature.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mb-2 font-display text-base font-semibold text-foreground">
