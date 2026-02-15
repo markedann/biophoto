@@ -8,27 +8,32 @@ import {
   Check,
   X,
 } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const tips = [
   {
     icon: Sun,
     title: "Gute Beleuchtung",
-    description: "Nutze natuerliches Tageslicht oder gleichmaessige Beleuchtung. Vermeide starke Schatten im Gesicht.",
+    description:
+      "Nutze natuerliches Tageslicht oder gleichmaessige Beleuchtung. Vermeide starke Schatten im Gesicht.",
   },
   {
     icon: Eye,
     title: "Direkt in die Kamera",
-    description: "Schaue frontal in die Kamera. Kopf gerade halten, nicht neigen oder drehen.",
+    description:
+      "Schaue frontal in die Kamera. Kopf gerade halten, nicht neigen oder drehen.",
   },
   {
     icon: Shirt,
     title: "Kleidung egal",
-    description: "Die KI ersetzt dein Outfit durch professionelle Kleidung. Trage, was du moechtest.",
+    description:
+      "Die KI ersetzt dein Outfit durch professionelle Kleidung. Trage, was du moechtest.",
   },
   {
     icon: Smartphone,
     title: "Hochformat bevorzugt",
-    description: "Ein Portrait-Foto funktioniert am besten. Halte dein Handy senkrecht.",
+    description:
+      "Ein Portrait-Foto funktioniert am besten. Halte dein Handy senkrecht.",
   },
 ];
 
@@ -47,30 +52,94 @@ const dontList = [
 ];
 
 export function SelfieGuide() {
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: tipsRef, isVisible: tipsVisible } = useAnimateOnScroll({
+    threshold: 0.05,
+  });
+  const { ref: examplesRef, isVisible: examplesVisible } = useAnimateOnScroll({
+    threshold: 0.1,
+  });
+  const { ref: listsRef, isVisible: listsVisible } = useAnimateOnScroll({
+    threshold: 0.1,
+  });
+
   return (
-    <section id="selfie-guide" className="relative px-4 py-14 sm:px-5 md:py-24">
+    <section id="selfie-guide" className="relative bg-card/50 px-4 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-12">
-          <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-12 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+        >
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Vorbereitung
           </span>
-          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             So machst du das perfekte Selfie
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
-            Befolge diese einfachen Tipps, damit unsere KI das bestmoegliche Passfoto fuer dich erstellen kann.
+          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
+            Befolge diese einfachen Tipps, damit unsere KI das bestmoegliche
+            Passfoto fuer dich erstellen kann.
           </p>
         </div>
 
+        {/* Good vs Bad example photos */}
+        <div
+          ref={examplesRef}
+          className={`scroll-reveal mb-10 grid gap-4 sm:mb-14 sm:grid-cols-2 ${examplesVisible ? "visible" : ""}`}
+        >
+          {/* Good example */}
+          <div className="group overflow-hidden rounded-2xl border-2 border-primary/30 bg-card">
+            <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+              <img
+                src="/images/selfie-good.jpg"
+                alt="Gutes Beispiel: Gleichmaessig beleuchtetes Selfie frontal in die Kamera"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">
+                <Check className="h-3.5 w-3.5" />
+                Gutes Beispiel
+              </div>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-center text-sm text-muted-foreground">
+                Gleichmaessige Beleuchtung, frontale Aufnahme, neutraler Hintergrund
+              </p>
+            </div>
+          </div>
+
+          {/* Bad example */}
+          <div className="group overflow-hidden rounded-2xl border-2 border-destructive/30 bg-card">
+            <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+              <img
+                src="/images/selfie-bad.jpg"
+                alt="Schlechtes Beispiel: Kopfbedeckung, seitlicher Winkel, schlechte Beleuchtung"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-destructive px-3 py-1.5 text-xs font-bold text-destructive-foreground">
+                <X className="h-3.5 w-3.5" />
+                Schlechtes Beispiel
+              </div>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-center text-sm text-muted-foreground">
+                Kopfbedeckung, seitlicher Winkel, starke Schatten
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Tips grid */}
-        <div className="mb-8 grid gap-3 sm:mb-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+        <div
+          ref={tipsRef}
+          className={`scroll-reveal-stagger mb-10 grid gap-4 sm:mb-14 sm:grid-cols-2 lg:grid-cols-4 ${tipsVisible ? "visible" : ""}`}
+        >
           {tips.map((tip) => (
             <div
               key={tip.title}
-              className="group rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
+              className="group rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-lg"
             >
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-                <tip.icon className="h-5 w-5 text-primary" />
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                <tip.icon className="h-5 w-5" />
               </div>
               <h3 className="mb-1.5 text-sm font-semibold text-foreground">
                 {tip.title}
@@ -83,17 +152,23 @@ export function SelfieGuide() {
         </div>
 
         {/* Do / Don't */}
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-accent/30 bg-accent/5 p-4 sm:p-6">
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-accent">
+        <div
+          ref={listsRef}
+          className={`scroll-reveal-stagger grid gap-4 sm:grid-cols-2 ${listsVisible ? "visible" : ""}`}
+        >
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-7">
+            <h3 className="mb-5 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary">
               <Check className="h-4 w-4" />
               Richtig
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="flex flex-col gap-3">
               {doList.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/80">
-                  <div className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-accent/15">
-                    <Check className="h-3 w-3 text-accent" />
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm text-foreground/80"
+                >
+                  <div className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-primary/15">
+                    <Check className="h-3 w-3 text-primary" />
                   </div>
                   {item}
                 </li>
@@ -101,14 +176,17 @@ export function SelfieGuide() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 sm:p-6">
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-destructive">
+          <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 sm:p-7">
+            <h3 className="mb-5 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-destructive">
               <X className="h-4 w-4" />
               Vermeiden
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="flex flex-col gap-3">
               {dontList.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/80">
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm text-foreground/80"
+                >
                   <div className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-destructive/15">
                     <X className="h-3 w-3 text-destructive" />
                   </div>

@@ -1,9 +1,22 @@
 import { Redis } from "@upstash/redis";
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-});
+let redis: Redis | null = null;
+
+function getRedis(): Redis {
+  if (!redis) {
+    const url = process.env.KV_REST_API_URL;
+    const token = process.env.KV_REST_API_TOKEN;
+
+    if (!url || !token) {
+      throw new Error(
+        "Missing Upstash Redis environment variables: KV_REST_API_URL and/or KV_REST_API_TOKEN"
+      );
+    }
+
+    redis = new Redis({ url, token });
+  }
+  return redis;
+}
 
 const DAILY_LIMIT = 1;
 const TTL_SECONDS = 86400; // 24 hours
@@ -14,12 +27,13 @@ const TTL_SECONDS = 86400; // 24 hours
  */
 export async function checkRateLimit(ip: string) {
   const key = `rl:generate:${ip}`;
+  const client = getRedis();
 
   try {
-    const current = await redis.get<number>(key);
+    const current = await client.get<number>(key);
 
     if (current !== null && current >= DAILY_LIMIT) {
-      const ttl = await redis.ttl(key);
+      const ttl = await client.ttl(key);
       return {
         allowed: false,
         remaining: 0,
@@ -28,12 +42,12 @@ export async function checkRateLimit(ip: string) {
     }
 
     // Increment counter and set expiry on first use
-    const newCount = await redis.incr(key);
+    const newCount = await client.incr(key);
     if (newCount === 1) {
-      await redis.expire(key, TTL_SECONDS);
+      await client.expire(key, TTL_SECONDS);
     }
 
-    const ttl = await redis.ttl(key);
+    const ttl = await client.ttl(key);
 
     return {
       allowed: newCount <= DAILY_LIMIT,
@@ -53,10 +67,11 @@ export async function checkRateLimit(ip: string) {
  */
 export async function getRateLimitStatus(ip: string) {
   const key = `rl:generate:${ip}`;
+  const client = getRedis();
 
   try {
-    const current = (await redis.get<number>(key)) ?? 0;
-    const ttl = await redis.ttl(key);
+    const current = (await client.get<number>(key)) ?? 0;
+    const ttl = await client.ttl(key);
 
     return {
       allowed: current < DAILY_LIMIT,

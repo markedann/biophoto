@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impressum - FotoProfi",
+  title: "Impressum - AmtlyPhoto",
 };
 
 export default function Impressum() {
@@ -29,7 +29,7 @@ export default function Impressum() {
                 Angaben gemaess 5 TMG
               </h2>
               <p>
-                FotoProfi<br />
+                AmtlyPhoto<br />
                 Musterstrasse 1<br />
                 12345 Musterstadt<br />
                 Deutschland
@@ -39,7 +39,7 @@ export default function Impressum() {
             <section>
               <h2 className="mb-2 text-lg font-bold text-foreground">Kontakt</h2>
               <p>
-                E-Mail: kontakt@fotoprofi.de
+                E-Mail: kontakt@amtlyphoto.de
               </p>
             </section>
 

@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      spacing: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -63,7 +67,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
         display: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {

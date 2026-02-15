@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 
 const faqs = [
   {
     question: "Ist der Service wirklich kostenlos?",
     answer:
-      "Ja, FotoProfi ist komplett kostenlos. Du kannst so viele Fotos erstellen, wie du moechtest.",
+      "Ja, AmtlyPhoto ist komplett kostenlos. Du kannst so viele Fotos erstellen, wie du moechtest.",
   },
   {
     question: "Werden meine Fotos gespeichert?",
@@ -33,59 +34,63 @@ const faqs = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
+  const { ref: listRef, isVisible: listVisible } = useAnimateOnScroll({
+    threshold: 0.05,
+  });
 
   return (
-    <section id="faq" className="px-4 py-14 sm:px-5 md:py-24">
+    <section id="faq" className="px-4 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-8 text-center sm:mb-10">
-          <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+        <div
+          ref={headerRef}
+          className={`scroll-reveal mb-10 text-center sm:mb-12 ${headerVisible ? "visible" : ""}`}
+        >
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             FAQ
           </span>
-          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-            Haeufig gestellte <span className="text-primary">Fragen</span>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Haeufig gestellte Fragen
           </h2>
         </div>
 
-        <div className="space-y-2">
+        <div
+          ref={listRef}
+          className={`scroll-reveal-stagger flex flex-col ${listVisible ? "visible" : ""}`}
+        >
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl border transition-all ${
-                openIndex === i
-                  ? "border-primary/30 bg-card shadow-sm"
-                  : "border-border bg-card hover:border-primary/20"
+              className={`border-b border-border transition-colors duration-300 ${
+                openIndex === i ? "bg-card/60" : ""
               }`}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex w-full items-center justify-between px-5 py-4 text-left"
+                className="flex w-full items-center justify-between py-5 text-left"
               >
-                <span className="pr-4 text-sm font-semibold text-foreground">
+                <span className="pr-6 text-sm font-semibold text-foreground sm:text-base">
                   {faq.question}
                 </span>
                 <div
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all ${
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                     openIndex === i
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-foreground text-background rotate-180"
                       : "bg-secondary text-muted-foreground"
                   }`}
                 >
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform ${
-                      openIndex === i ? "rotate-180" : ""
-                    }`}
-                  />
+                  <ChevronDown className="h-3.5 w-3.5" />
                 </div>
               </button>
               <div
-                className={`grid transition-all duration-300 ${
+                className={`grid transition-all duration-300 ease-out ${
                   openIndex === i
                     ? "grid-rows-[1fr] opacity-100"
                     : "grid-rows-[0fr] opacity-0"
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-muted-foreground">
+                  <p className="pb-5 pr-12 text-sm leading-relaxed text-muted-foreground">
                     {faq.answer}
                   </p>
                 </div>
