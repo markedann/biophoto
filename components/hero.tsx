@@ -1,78 +1,72 @@
 "use client";
 
-import { ArrowDown, Shield, Sparkles, Zap } from "lucide-react";
+import { ArrowDown, Camera, Shield, Sparkles, Zap } from "lucide-react";
 
 export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-5 md:pb-36 md:pt-44">
-      {/* Background effects */}
+    <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 md:pb-40 md:pt-48">
+      {/* Subtle radial glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-[400px] w-[500px] translate-x-1/4 rounded-full bg-accent/[0.04] blur-[100px]" />
+        <div className="absolute left-1/2 top-1/3 h-[700px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.06] blur-[140px]" />
       </div>
 
-      {/* Grid overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.02]"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      <div className="mx-auto max-w-4xl text-center">
-        <div className="animate-hero-enter mb-6 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/20">
-            <Sparkles className="h-3 w-3 text-accent" />
+      <div className="mx-auto max-w-3xl text-center">
+        {/* Badge */}
+        <div className="animate-hero-enter mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 text-xs font-medium text-muted-foreground backdrop-blur-sm sm:text-sm">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <Camera className="h-2.5 w-2.5" />
           </span>
-          <span className="font-medium">100% kostenlos</span>
-          <span className="text-border">|</span>
-          <span className="font-medium">Keine Registrierung</span>
+          <span>Biometrisch &middot; Kostenlos &middot; DSGVO-konform</span>
         </div>
 
-        <h1 className="animate-hero-enter-delay-1 text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-7xl">
-          Dein professionelles
+        {/* Main headline */}
+        <h1 className="animate-hero-enter-delay-1 text-balance font-display text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+          Professionelles Passfoto
           <br />
-          <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
-            Passfoto
-          </span>{" "}
-          in Sekunden
+          <span className="text-primary">in Sekunden</span>
         </h1>
 
-        <p className="animate-hero-enter-delay-2 mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base md:text-lg">
-          Lade ein Selfie hoch und unsere KI erstellt ein biometrisches Passfoto
-          nach deutschen Standards -- fuer Reisepass, Ausweis und Bewerbungen.
+        {/* Subtitle */}
+        <p className="animate-hero-enter-delay-2 mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:mt-8 sm:text-lg">
+          Lade ein Selfie hoch und unsere KI erstellt ein biometrisches
+          Passfoto nach deutschen Standards -- fuer Reisepass, Ausweis und
+          Bewerbungen.
         </p>
 
-        <div className="animate-hero-enter-delay-3 mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row">
+        {/* CTA */}
+        <div className="animate-hero-enter-delay-3 mt-10 flex flex-col items-center gap-4 sm:mt-12 sm:flex-row sm:justify-center">
           <button
             onClick={onScrollToUpload}
-            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+            className="group relative flex w-full items-center justify-center gap-2.5 rounded-xl bg-foreground px-7 py-4 text-sm font-semibold text-background transition-all duration-300 hover:bg-foreground/90 active:scale-[0.98] sm:w-auto sm:text-base"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            <span className="relative flex items-center gap-2.5">
-              Jetzt Foto erstellen
-              <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-            </span>
+            Jetzt Foto erstellen
+            <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
           </button>
+          <span className="text-xs text-muted-foreground">
+            Keine Registrierung noetig
+          </span>
         </div>
 
-        {/* Stats row */}
-        <div className="animate-hero-enter-delay-3 mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:mt-16 sm:gap-6">
+        {/* Stats */}
+        <div className="animate-hero-enter-delay-4 mx-auto mt-16 flex max-w-md items-center justify-center gap-8 sm:mt-20 sm:gap-12">
           {[
             { icon: Zap, value: "< 30s", label: "Ergebnis" },
             { icon: Shield, value: "DSGVO", label: "Konform" },
             { icon: Sparkles, value: "100%", label: "Kostenlos" },
-          ].map((stat) => (
+          ].map((stat, i) => (
             <div key={stat.label} className="flex flex-col items-center">
-              <div className="mb-1.5 flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-primary sm:mb-2 sm:h-10 sm:w-10">
-                <stat.icon className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+              <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-card text-primary">
+                <stat.icon className="h-4.5 w-4.5" />
               </div>
-              <span className="font-display text-base font-bold text-foreground sm:text-lg md:text-xl">
+              <span className="font-display text-lg font-bold text-foreground sm:text-xl">
                 {stat.value}
               </span>
-              <span className="text-xs text-muted-foreground">{stat.label}</span>
+              <span className="mt-0.5 text-xs text-muted-foreground">
+                {stat.label}
+              </span>
+              {i < 2 && (
+                <div className="absolute" />
+              )}
             </div>
           ))}
         </div>

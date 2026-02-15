@@ -10,48 +10,48 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 20% 10%;
-    --card: 220 20% 97%;
-    --card-foreground: 222 20% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 20% 10%;
-    --primary: 217 91% 50%;
+    --background: 40 20% 98%;
+    --foreground: 220 20% 10%;
+    --card: 40 15% 95%;
+    --card-foreground: 220 20% 10%;
+    --popover: 40 20% 98%;
+    --popover-foreground: 220 20% 10%;
+    --primary: 165 60% 30%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 14% 93%;
-    --secondary-foreground: 222 15% 30%;
-    --muted: 220 14% 94%;
-    --muted-foreground: 215 12% 45%;
-    --accent: 38 92% 50%;
+    --secondary: 40 12% 90%;
+    --secondary-foreground: 220 15% 30%;
+    --muted: 40 10% 92%;
+    --muted-foreground: 220 8% 45%;
+    --accent: 28 80% 52%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 89%;
-    --input: 220 13% 89%;
-    --ring: 217 91% 50%;
+    --border: 40 10% 87%;
+    --input: 40 10% 87%;
+    --ring: 165 60% 30%;
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222 22% 6%;
-    --foreground: 210 20% 96%;
-    --card: 222 20% 9%;
-    --card-foreground: 210 20% 96%;
-    --popover: 222 20% 9%;
-    --popover-foreground: 210 20% 96%;
-    --primary: 217 91% 58%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 222 16% 14%;
-    --secondary-foreground: 210 15% 80%;
-    --muted: 222 14% 13%;
-    --muted-foreground: 215 12% 55%;
-    --accent: 38 92% 55%;
-    --accent-foreground: 222 22% 6%;
+    --background: 220 20% 5%;
+    --foreground: 40 10% 94%;
+    --card: 220 18% 8%;
+    --card-foreground: 40 10% 94%;
+    --popover: 220 18% 8%;
+    --popover-foreground: 40 10% 94%;
+    --primary: 165 55% 42%;
+    --primary-foreground: 220 20% 5%;
+    --secondary: 220 14% 13%;
+    --secondary-foreground: 40 10% 75%;
+    --muted: 220 12% 12%;
+    --muted-foreground: 220 8% 52%;
+    --accent: 28 80% 55%;
+    --accent-foreground: 220 20% 5%;
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 222 14% 16%;
-    --input: 222 14% 16%;
-    --ring: 217 91% 58%;
+    --border: 220 12% 15%;
+    --input: 220 12% 15%;
+    --ring: 165 55% 42%;
   }
 }
 
@@ -77,26 +77,26 @@
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border));
-  border-radius: 3px;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 
 /* ── Scroll-triggered reveal animations ─────────────────────── */
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.visible {
@@ -107,17 +107,17 @@
 /* Staggered children */
 .scroll-reveal-stagger > * {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
-.scroll-reveal-stagger.visible > *:nth-child(2) { transition-delay: 80ms; }
-.scroll-reveal-stagger.visible > *:nth-child(3) { transition-delay: 160ms; }
-.scroll-reveal-stagger.visible > *:nth-child(4) { transition-delay: 240ms; }
-.scroll-reveal-stagger.visible > *:nth-child(5) { transition-delay: 320ms; }
-.scroll-reveal-stagger.visible > *:nth-child(6) { transition-delay: 400ms; }
+.scroll-reveal-stagger.visible > *:nth-child(2) { transition-delay: 100ms; }
+.scroll-reveal-stagger.visible > *:nth-child(3) { transition-delay: 200ms; }
+.scroll-reveal-stagger.visible > *:nth-child(4) { transition-delay: 300ms; }
+.scroll-reveal-stagger.visible > *:nth-child(5) { transition-delay: 400ms; }
+.scroll-reveal-stagger.visible > *:nth-child(6) { transition-delay: 500ms; }
 
 .scroll-reveal-stagger.visible > * {
   opacity: 1;
@@ -128,7 +128,7 @@
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes shimmer {
@@ -157,14 +157,8 @@
   50% { opacity: 0.8; }
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 @keyframes hero-enter {
-  0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+  0% { opacity: 0; transform: translateY(32px) scale(0.97); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -193,23 +187,22 @@
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-.animate-gradient-shift {
-  animation: gradient-shift 6s ease infinite;
-  background-size: 200% 200%;
-}
-
 .animate-hero-enter {
-  animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-hero-enter-delay-1 {
-  animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
 
 .animate-hero-enter-delay-2 {
-  animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
 }
 
 .animate-hero-enter-delay-3 {
-  animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+.animate-hero-enter-delay-4 {
+  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
 }

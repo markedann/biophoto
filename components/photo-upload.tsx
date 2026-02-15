@@ -465,7 +465,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   };
 
   return (
-    <section id="upload" className="relative px-4 py-14 sm:px-5 md:py-24" ref={ref}>
+    <section id="upload" className="relative px-4 py-20 sm:px-6 md:py-28" ref={ref}>
       {/* Cloudflare Turnstile invisible widget */}
       {SITE_KEY && (
         <Script
@@ -479,15 +479,15 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       <div className="mx-auto max-w-2xl">
         <div
           ref={headerAnimRef}
-          className={`scroll-reveal mb-8 text-center sm:mb-10 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-10 text-center sm:mb-12 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Upload
           </span>
-          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-            Foto <span className="text-primary">hochladen</span>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Foto hochladen
           </h2>
-          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+          <p className="mx-auto mt-4 max-w-md text-base text-muted-foreground">
             Lade dein Selfie hoch und erhalte ein professionelles Passfoto.
           </p>
         </div>

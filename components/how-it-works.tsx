@@ -6,21 +6,21 @@ import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll";
 const steps = [
   {
     icon: Upload,
-    step: "01",
+    number: "1",
     title: "Selfie hochladen",
     description:
       "Mache ein Selfie oder lade ein vorhandenes Foto hoch. Achte auf gute Beleuchtung und schaue direkt in die Kamera.",
   },
   {
     icon: Cpu,
-    step: "02",
+    number: "2",
     title: "KI verarbeitet",
     description:
       "Unsere KI transformiert dein Foto in ein biometrisches Passfoto: professioneller Hintergrund, Beleuchtung und Kleidung.",
   },
   {
     icon: Download,
-    step: "03",
+    number: "3",
     title: "Herunterladen",
     description:
       "Lade dein fertiges Passfoto in hoher Aufloesung herunter. Bereit fuer Reisepass, Ausweis oder Bewerbung.",
@@ -32,51 +32,43 @@ export function HowItWorks() {
   const { ref: gridRef, isVisible: gridVisible } = useAnimateOnScroll({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
-      {/* Background accent */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-0 top-1/2 h-[400px] w-[300px] -translate-y-1/2 rounded-full bg-accent/[0.03] blur-[100px]" />
-      </div>
-
+    <section id="how-it-works" className="relative px-4 py-20 sm:px-6 md:py-32">
       <div className="mx-auto max-w-5xl">
         <div
           ref={headerRef}
-          className={`scroll-reveal mb-8 text-center sm:mb-14 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-12 text-center sm:mb-16 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Anleitung
           </span>
-          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             {"So funktioniert's"}
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:mt-4 sm:text-base">
+          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
             In nur drei einfachen Schritten zum perfekten Passfoto.
           </p>
         </div>
 
         <div
           ref={gridRef}
-          className={`scroll-reveal-stagger relative grid gap-6 md:grid-cols-3 ${gridVisible ? "visible" : ""}`}
+          className={`scroll-reveal-stagger grid gap-6 md:grid-cols-3 ${gridVisible ? "visible" : ""}`}
         >
-          {/* Connector line */}
-          <div className="pointer-events-none absolute left-0 right-0 top-[3.5rem] z-0 hidden md:block">
-            <div className="mx-20 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-          </div>
-
           {steps.map((item) => (
-            <div key={item.step} className="group relative z-10 text-center">
-              <div className="relative mx-auto mb-5">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/20">
-                  <item.icon className="h-7 w-7" />
-                </div>
-                <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground">
-                  {item.step}
-                </span>
+            <div
+              key={item.number}
+              className="group relative rounded-2xl border border-border bg-card p-8 transition-all duration-300 hover:shadow-lg"
+            >
+              {/* Large step number */}
+              <span className="mb-6 block font-display text-5xl font-bold text-border transition-colors duration-300 group-hover:text-primary/30">
+                {item.number}
+              </span>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                <item.icon className="h-5.5 w-5.5" />
               </div>
               <h3 className="mb-2 font-display text-lg font-semibold text-foreground">
                 {item.title}
               </h3>
-              <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted-foreground">
+              <p className="text-sm leading-relaxed text-muted-foreground">
                 {item.description}
               </p>
             </div>

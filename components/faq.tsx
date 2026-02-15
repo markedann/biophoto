@@ -35,55 +35,51 @@ const faqs = [
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { ref: headerRef, isVisible: headerVisible } = useAnimateOnScroll();
-  const { ref: listRef, isVisible: listVisible } = useAnimateOnScroll({ threshold: 0.05 });
+  const { ref: listRef, isVisible: listVisible } = useAnimateOnScroll({
+    threshold: 0.05,
+  });
 
   return (
-    <section id="faq" className="px-4 py-14 sm:px-5 md:py-24">
+    <section id="faq" className="px-4 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-2xl">
         <div
           ref={headerRef}
-          className={`scroll-reveal mb-8 text-center sm:mb-10 ${headerVisible ? "visible" : ""}`}
+          className={`scroll-reveal mb-10 text-center sm:mb-12 ${headerVisible ? "visible" : ""}`}
         >
-          <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             FAQ
           </span>
-          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-            Haeufig gestellte <span className="text-primary">Fragen</span>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Haeufig gestellte Fragen
           </h2>
         </div>
 
         <div
           ref={listRef}
-          className={`scroll-reveal-stagger flex flex-col gap-2 ${listVisible ? "visible" : ""}`}
+          className={`scroll-reveal-stagger flex flex-col ${listVisible ? "visible" : ""}`}
         >
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl border transition-all duration-300 ${
-                openIndex === i
-                  ? "border-primary/30 bg-card shadow-sm"
-                  : "border-border bg-card hover:border-primary/20"
+              className={`border-b border-border transition-colors duration-300 ${
+                openIndex === i ? "bg-card/60" : ""
               }`}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex w-full items-center justify-between px-5 py-4 text-left"
+                className="flex w-full items-center justify-between py-5 text-left"
               >
-                <span className="pr-4 text-sm font-semibold text-foreground">
+                <span className="pr-6 text-sm font-semibold text-foreground sm:text-base">
                   {faq.question}
                 </span>
                 <div
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                     openIndex === i
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-foreground text-background rotate-180"
                       : "bg-secondary text-muted-foreground"
                   }`}
                 >
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                      openIndex === i ? "rotate-180" : ""
-                    }`}
-                  />
+                  <ChevronDown className="h-3.5 w-3.5" />
                 </div>
               </button>
               <div
@@ -94,7 +90,7 @@ export function FAQ() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-muted-foreground">
+                  <p className="pb-5 pr-12 text-sm leading-relaxed text-muted-foreground">
                     {faq.answer}
                   </p>
                 </div>
