@@ -27,14 +27,14 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
         scrolled
-          ? "border-b border-border/60 bg-background/80 backdrop-blur-xl"
+          ? "border-b border-border/50 bg-background/85 shadow-sm backdrop-blur-2xl"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6 sm:py-4 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-70">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background">
+        <Link href="/" className="group flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-80">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-transform duration-300 group-hover:scale-105">
             <Camera className="h-4 w-4" />
           </div>
           <span className="font-display text-lg font-bold tracking-tight text-foreground">
@@ -43,30 +43,34 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center gap-8 text-sm md:flex">
-          <a href="/#features" className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground">
-            Vorteile
-          </a>
-          <a href="/#how-it-works" className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground">
-            {"So funktioniert's"}
-          </a>
-          <a href="/#faq" className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground">
-            FAQ
-          </a>
+        <nav className="hidden items-center gap-1 md:flex">
+          {[
+            { href: "/#features", label: "Vorteile" },
+            { href: "/#how-it-works", label: "So funktioniert's" },
+            { href: "/#faq", label: "FAQ" },
+          ].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-secondary hover:text-foreground"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <ThemeToggle />
           <button
             onClick={onScrollToUpload}
-            className="hidden rounded-lg bg-foreground px-5 py-2 text-sm font-semibold text-background transition-all duration-200 hover:bg-foreground/85 active:scale-[0.97] sm:block"
+            className="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 hover:shadow-md active:scale-[0.97] sm:block"
           >
             Foto erstellen
           </button>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground md:hidden"
             aria-label="Menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -76,11 +80,11 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
 
       {/* Mobile menu */}
       <div
-        className={`overflow-hidden border-t border-border/40 bg-background/95 backdrop-blur-xl transition-all duration-300 ease-out md:hidden ${
-          mobileOpen ? "max-h-72 opacity-100" : "max-h-0 border-t-transparent opacity-0"
+        className={`overflow-hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl transition-all duration-300 ease-out md:hidden ${
+          mobileOpen ? "max-h-80 opacity-100" : "max-h-0 border-t-transparent opacity-0"
         }`}
       >
-        <nav className="flex flex-col gap-1 px-4 pb-5 pt-3 sm:px-6">
+        <nav className="flex flex-col gap-1 px-5 pb-5 pt-3 sm:px-6">
           {[
             { href: "/#features", label: "Vorteile" },
             { href: "/#how-it-works", label: "So funktioniert's" },
@@ -90,7 +94,7 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
+              className="rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
             >
               {link.label}
             </a>
@@ -100,7 +104,7 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
               setMobileOpen(false);
               onScrollToUpload();
             }}
-            className="mt-2 rounded-lg bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-all duration-200 hover:bg-foreground/85"
+            className="mt-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/90"
           >
             Foto erstellen
           </button>
