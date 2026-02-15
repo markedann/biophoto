@@ -112,7 +112,7 @@ export function SelfieGuide() {
             <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
               <img
                 src="/images/selfie-bad.jpg"
-                alt="Schlechtes Beispiel: Sonnenbrille, seitlicher Winkel, schlechte Beleuchtung"
+                alt="Schlechtes Beispiel: Kopfbedeckung, seitlicher Winkel, schlechte Beleuchtung"
                 className="h-full w-full object-cover"
               />
               <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-destructive px-3 py-1.5 text-xs font-bold text-destructive-foreground">
@@ -122,7 +122,7 @@ export function SelfieGuide() {
             </div>
             <div className="px-5 py-4">
               <p className="text-center text-sm text-muted-foreground">
-                Sonnenbrille, seitlicher Winkel, starke Schatten
+                Kopfbedeckung, seitlicher Winkel, starke Schatten
               </p>
             </div>
           </div>
