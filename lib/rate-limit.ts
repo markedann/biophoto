@@ -61,7 +61,7 @@ export async function checkRateLimit(ip: string) {
     };
   } catch (err) {
     // Fail open -- if Redis is down, allow the request
-    console.error("[v0] Redis rate-limit error:", err);
+    console.error("[rate-limit] Redis error:", err);
     return { allowed: true, remaining: 0, resetInSeconds: 0 };
   }
 }
@@ -88,7 +88,7 @@ export async function getRateLimitStatus(ip: string) {
       resetInSeconds: ttl > 0 ? ttl : 0,
     };
   } catch (err) {
-    console.error("[v0] Redis status check error:", err);
+    console.error("[rate-limit] Redis status check error:", err);
     return { allowed: true, remaining: DAILY_LIMIT, resetInSeconds: 0 };
   }
 }

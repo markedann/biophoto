@@ -222,19 +222,58 @@
   animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
 }
 
-/* Subtle noise overlay */
+/* Subtle noise overlay — static on mobile to avoid jank, animated only on desktop */
 .noise-overlay::before {
   content: '';
   position: absolute;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.03;
   pointer-events: none;
-  animation: grain 8s steps(10) infinite;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .noise-overlay::before {
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    animation: grain 8s steps(10) infinite;
+  }
 }
 
 .dark .noise-overlay::before {
   opacity: 0.04;
+}
+
+/* Disable all non-essential animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .noise-overlay::before {
+    animation: none !important;
+  }
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scroll-reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .animate-shimmer,
+  .animate-pulse-ring,
+  .animate-glow-pulse,
+  .animate-hero-enter,
+  .animate-hero-enter-delay-1,
+  .animate-hero-enter-delay-2,
+  .animate-hero-enter-delay-3,
+  .animate-hero-enter-delay-4 {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
 }

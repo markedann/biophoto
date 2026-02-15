@@ -11,7 +11,7 @@ export async function verifyTurnstile(
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
-    console.warn("[v0] TURNSTILE_SECRET_KEY is not set — skipping verification");
+    console.warn("[turnstile] TURNSTILE_SECRET_KEY is not set — skipping verification");
     return true; // fail-open in dev so the app still works without keys
   }
 

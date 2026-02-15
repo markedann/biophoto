@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Camera, Menu, X } from "lucide-react";
+import { Camera, Menu, X, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -99,6 +104,19 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
               {link.label}
             </a>
           ))}
+          {mounted && (
+            <button
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
+            >
+              {resolvedTheme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
+              {resolvedTheme === "dark" ? "Helles Design" : "Dunkles Design"}
+            </button>
+          )}
           <button
             onClick={() => {
               setMobileOpen(false);

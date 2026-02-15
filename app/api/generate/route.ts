@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       }
     }
   } catch (err) {
-    console.error("[v0] Turnstile check error:", err);
+    console.error("[generate] Turnstile check error:", err);
     // Fail open
   }
 
@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error("[v0] Fal.ai error:", response.status, errText);
+      console.error("[generate] Fal.ai error:", response.status, errText);
       return NextResponse.json(
         { error: `Fal.ai Fehler (${response.status}): ${errText.slice(0, 200)}` },
         { status: 502 }
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     const imageUrl = data.images?.[0]?.url;
     if (!imageUrl) {
-      console.error("[v0] No image in result:", JSON.stringify(data).slice(0, 300));
+      console.error("[generate] No image in result:", JSON.stringify(data).slice(0, 300));
       return NextResponse.json(
         { error: "Kein Bild im Ergebnis." },
         { status: 502 }
@@ -158,7 +158,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ image: imageUrl });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error("[v0] Unexpected error:", message);
+    console.error("[generate] Unexpected error:", message);
     return NextResponse.json(
       { error: `Fehler bei der Bildverarbeitung: ${message}` },
       { status: 500 }
