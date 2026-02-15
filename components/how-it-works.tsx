@@ -26,21 +26,21 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative px-5 py-20 md:py-28">
+    <section id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-0 top-1/2 h-[400px] w-[300px] -translate-y-1/2 rounded-full bg-accent/[0.03] blur-[100px]" />
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-14 text-center">
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent">
+        <div className="mb-8 text-center sm:mb-14">
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Anleitung
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
             {"So funktioniert's"}
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:mt-4 sm:text-base">
             In nur drei einfachen Schritten zum perfekten Passfoto.
           </p>
         </div>

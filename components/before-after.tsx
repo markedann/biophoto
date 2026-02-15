@@ -17,26 +17,26 @@ const examples = [
 
 export function BeforeAfter() {
   return (
-    <section id="before-after" className="relative px-5 py-20 md:py-28">
+    <section id="before-after" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Subtle glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.04] blur-[120px]" />
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-14 text-center">
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent">
+        <div className="mb-8 text-center sm:mb-14">
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Ergebnisse
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
             Vorher & Nachher
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:mt-4 sm:text-base">
             Sieh dir an, wie unsere KI aus einem einfachen Selfie ein professionelles Passfoto erstellt.
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-5 sm:gap-8 md:grid-cols-2">
           {examples.map((example, idx) => (
             <div
               key={idx}
@@ -58,9 +58,9 @@ export function BeforeAfter() {
                 </div>
 
                 {/* Arrow */}
-                <div className="flex items-center justify-center px-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-                    <ArrowRight className="h-4 w-4" />
+                <div className="flex items-center justify-center px-1 sm:px-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:h-9 sm:w-9">
+                    <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
                 </div>
 
