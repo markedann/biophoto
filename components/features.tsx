@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Camera,
   Download,
@@ -6,6 +8,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const features = [
   {
@@ -47,10 +50,12 @@ const features = [
 ];
 
 export function Features() {
+  const { ref, isInView } = useInView();
+
   return (
-    <section id="features" className="relative px-4 py-14 sm:px-5 md:py-28">
+    <section ref={ref} id="features" className="relative px-4 py-14 sm:px-5 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div className={`mb-8 text-center sm:mb-14 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary sm:mb-4">
             Vorteile
           </span>
@@ -63,10 +68,11 @@ export function Features() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
+          {features.map((feature, idx) => (
             <div
               key={feature.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5"
+              className={`group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-700 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: isInView ? `${150 + idx * 100}ms` : "0ms" }}
             >
               {/* Hover glow */}
               <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />

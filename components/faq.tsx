@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const faqs = [
   {
@@ -33,11 +34,12 @@ const faqs = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { ref, isInView } = useInView();
 
   return (
-    <section id="faq" className="px-4 py-14 sm:px-5 md:py-24">
+    <section ref={ref} id="faq" className="px-4 py-14 sm:px-5 md:py-24">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-8 text-center sm:mb-10">
+        <div className={`mb-8 text-center sm:mb-10 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             FAQ
           </span>
@@ -50,7 +52,8 @@ export function FAQ() {
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl border transition-all ${
+              style={{ transitionDelay: isInView ? `${100 + i * 80}ms` : "0ms" }}
+              className={`overflow-hidden rounded-xl border transition-all duration-500 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} ${
                 openIndex === i
                   ? "border-primary/30 bg-card shadow-sm"
                   : "border-border bg-card hover:border-primary/20"

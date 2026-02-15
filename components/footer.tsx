@@ -1,10 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { Camera } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 export function Footer() {
+  const { ref, isInView } = useInView(0.2);
+
   return (
-    <footer className="border-t border-border bg-card px-4 py-8 sm:py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 sm:gap-6">
+    <footer ref={ref} className="border-t border-border bg-card px-4 py-8 sm:py-10">
+      <div className={`mx-auto flex max-w-6xl flex-col items-center gap-4 sm:gap-6 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Camera className="h-3.5 w-3.5" />

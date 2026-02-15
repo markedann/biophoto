@@ -8,6 +8,7 @@ import {
   Check,
   X,
 } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const tips = [
   {
@@ -47,10 +48,12 @@ const dontList = [
 ];
 
 export function SelfieGuide() {
+  const { ref, isInView } = useInView();
+
   return (
-    <section id="selfie-guide" className="relative px-4 py-14 sm:px-5 md:py-24">
+    <section ref={ref} id="selfie-guide" className="relative px-4 py-14 sm:px-5 md:py-24">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-12">
+        <div className={`mb-8 text-center sm:mb-12 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Vorbereitung
           </span>
@@ -64,10 +67,11 @@ export function SelfieGuide() {
 
         {/* Tips grid */}
         <div className="mb-8 grid gap-3 sm:mb-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-          {tips.map((tip) => (
+          {tips.map((tip, idx) => (
             <div
               key={tip.title}
-              className="group rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
+              className={`group rounded-xl border border-border bg-card p-5 transition-all duration-600 hover:border-primary/30 hover:shadow-md ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              style={{ transitionDelay: isInView ? `${150 + idx * 100}ms` : "0ms" }
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
                 <tip.icon className="h-5 w-5 text-primary" />
@@ -84,7 +88,7 @@ export function SelfieGuide() {
 
         {/* Do / Don't */}
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-accent/30 bg-accent/5 p-4 sm:p-6">
+          <div className={`rounded-xl border border-accent/30 bg-accent/5 p-4 sm:p-6 transition-all duration-700 delay-300 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-accent">
               <Check className="h-4 w-4" />
               Richtig
@@ -101,7 +105,7 @@ export function SelfieGuide() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 sm:p-6">
+          <div className={`rounded-xl border border-destructive/30 bg-destructive/5 p-4 sm:p-6 transition-all duration-700 delay-[450ms] ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-destructive">
               <X className="h-4 w-4" />
               Vermeiden

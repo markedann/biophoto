@@ -34,13 +34,13 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-          <a href="/#features" className="transition-colors hover:text-foreground">
+          <a href="/#features" className="relative transition-colors duration-300 hover:text-foreground after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
             Vorteile
           </a>
-          <a href="/#how-it-works" className="transition-colors hover:text-foreground">
+          <a href="/#how-it-works" className="relative transition-colors duration-300 hover:text-foreground after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
             {"So funktioniert's"}
           </a>
-          <a href="/#faq" className="transition-colors hover:text-foreground">
+          <a href="/#faq" className="relative transition-colors duration-300 hover:text-foreground after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
             FAQ
           </a>
         </nav>
@@ -63,8 +63,11 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
         </div>
       </div>
 
-      {mobileOpen && (
-        <div className="border-t border-border/50 bg-background/95 px-4 pb-5 pt-3 backdrop-blur-xl sm:px-5 md:hidden">
+      <div
+        className={`border-t border-border/50 bg-background/95 px-4 backdrop-blur-xl sm:px-5 md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileOpen ? "max-h-80 pb-5 pt-3 opacity-100" : "max-h-0 pb-0 pt-0 opacity-0 border-t-0"
+        }`}
+      >
           <nav className="flex flex-col gap-1">
             {[
               { href: "/#features", label: "Vorteile" },
@@ -91,7 +94,6 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
             </button>
           </nav>
         </div>
-      )}
     </header>
   );
 }

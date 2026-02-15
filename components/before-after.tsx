@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const examples = [
   {
@@ -16,15 +17,17 @@ const examples = [
 ];
 
 export function BeforeAfter() {
+  const { ref, isInView } = useInView();
+
   return (
-    <section id="before-after" className="relative px-4 py-14 sm:px-5 md:py-28">
+    <section ref={ref} id="before-after" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Subtle glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.04] blur-[120px]" />
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div className={`mb-8 text-center sm:mb-14 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Ergebnisse
           </span>
@@ -40,7 +43,8 @@ export function BeforeAfter() {
           {examples.map((example, idx) => (
             <div
               key={idx}
-              className="group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5"
+              className={`group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-700 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: isInView ? `${200 + idx * 150}ms` : "0ms" }}
             >
               <div className="flex items-stretch">
                 {/* Before */}

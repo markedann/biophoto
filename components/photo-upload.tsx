@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { useInView } from "@/hooks/use-in-view";
 import Script from "next/script";
 import {
   Upload,
@@ -229,6 +230,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   _,
   ref
 ) {
+  const { ref: inViewRef, isInView } = useInView();
   const [status, setStatus] = useState<Status>("idle");
   const [photoType, setPhotoType] = useState<PhotoType>("biometric");
   const [personType, setPersonType] = useState<PersonType>("man");
@@ -463,7 +465,12 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   };
 
   return (
-    <section id="upload" className="relative px-4 py-14 sm:px-5 md:py-24" ref={ref}>
+    <section id="upload" className="relative px-4 py-14 sm:px-5 md:py-24" ref={(node) => {
+      // Merge both refs
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      (inViewRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }}>
       {/* Cloudflare Turnstile invisible widget */}
       {SITE_KEY && (
         <Script
@@ -475,7 +482,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       <div ref={turnstileContainerRef} className="hidden" />
 
       <div className="mx-auto max-w-2xl">
-        <div className="mb-8 text-center sm:mb-10">
+        <div className={`mb-8 text-center sm:mb-10 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Upload
           </span>
@@ -487,7 +494,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
+        <div className={`overflow-hidden rounded-2xl border border-border bg-card shadow-lg transition-all duration-700 delay-200 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           {/* Idle / Drop Zone */}
           {status === "idle" && (
             <div className="flex flex-col">

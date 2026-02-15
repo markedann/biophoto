@@ -1,4 +1,7 @@
+"use client";
+
 import { Upload, Cpu, Download } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const steps = [
   {
@@ -25,15 +28,17 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const { ref, isInView } = useInView();
+
   return (
-    <section id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
+    <section ref={ref} id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-0 top-1/2 h-[400px] w-[300px] -translate-y-1/2 rounded-full bg-accent/[0.03] blur-[100px]" />
       </div>
 
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center sm:mb-14">
+        <div className={`mb-8 text-center sm:mb-14 transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent sm:mb-4">
             Anleitung
           </span>
@@ -51,8 +56,12 @@ export function HowItWorks() {
             <div className="mx-20 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
           </div>
 
-          {steps.map((item) => (
-            <div key={item.step} className="group relative z-10 text-center">
+          {steps.map((item, idx) => (
+            <div
+              key={item.step}
+              className={`group relative z-10 text-center transition-all duration-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: isInView ? `${200 + idx * 150}ms` : "0ms" }}
+            >
               <div className="relative mx-auto mb-5">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/20">
                   <item.icon className="h-7 w-7" />
