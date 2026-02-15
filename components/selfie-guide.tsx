@@ -56,6 +56,9 @@ export function SelfieGuide() {
   const { ref: tipsRef, isVisible: tipsVisible } = useAnimateOnScroll({
     threshold: 0.05,
   });
+  const { ref: examplesRef, isVisible: examplesVisible } = useAnimateOnScroll({
+    threshold: 0.1,
+  });
   const { ref: listsRef, isVisible: listsVisible } = useAnimateOnScroll({
     threshold: 0.1,
   });
@@ -77,6 +80,52 @@ export function SelfieGuide() {
             Befolge diese einfachen Tipps, damit unsere KI das bestmoegliche
             Passfoto fuer dich erstellen kann.
           </p>
+        </div>
+
+        {/* Good vs Bad example photos */}
+        <div
+          ref={examplesRef}
+          className={`scroll-reveal mb-10 grid gap-4 sm:mb-14 sm:grid-cols-2 ${examplesVisible ? "visible" : ""}`}
+        >
+          {/* Good example */}
+          <div className="group overflow-hidden rounded-2xl border-2 border-primary/30 bg-card">
+            <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+              <img
+                src="/images/selfie-good.jpg"
+                alt="Gutes Beispiel: Gleichmaessig beleuchtetes Selfie frontal in die Kamera"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">
+                <Check className="h-3.5 w-3.5" />
+                Gutes Beispiel
+              </div>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-center text-sm text-muted-foreground">
+                Gleichmaessige Beleuchtung, frontale Aufnahme, neutraler Hintergrund
+              </p>
+            </div>
+          </div>
+
+          {/* Bad example */}
+          <div className="group overflow-hidden rounded-2xl border-2 border-destructive/30 bg-card">
+            <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+              <img
+                src="/images/selfie-bad.jpg"
+                alt="Schlechtes Beispiel: Sonnenbrille, seitlicher Winkel, schlechte Beleuchtung"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-lg bg-destructive px-3 py-1.5 text-xs font-bold text-destructive-foreground">
+                <X className="h-3.5 w-3.5" />
+                Schlechtes Beispiel
+              </div>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-center text-sm text-muted-foreground">
+                Sonnenbrille, seitlicher Winkel, starke Schatten
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Tips grid */}
