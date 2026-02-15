@@ -7,7 +7,7 @@ const faqs = [
   {
     question: "Ist der Service wirklich kostenlos?",
     answer:
-      "Ja, FotoProfi ist komplett kostenlos. Du kannst so viele Fotos erstellen, wie du moechtest.",
+      "Ja, amtlyphoto ist komplett kostenlos. Du kannst so viele Fotos erstellen, wie du moechtest.",
   },
   {
     question: "Werden meine Fotos gespeichert?",

@@ -29,7 +29,7 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
             <Camera className="h-4.5 w-4.5" />
           </div>
           <span className="font-display text-lg font-bold tracking-tight text-foreground">
-            Foto<span className="text-primary">Profi</span>
+            amtly<span className="text-primary">photo</span>
           </span>
         </Link>
 

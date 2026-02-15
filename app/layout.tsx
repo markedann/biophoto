@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk', weight: ['400', '500', '600', '700'] })
 
 export const metadata: Metadata = {
-  title: 'FotoProfi - Professionelle Passfotos mit KI',
+  title: 'amtlyphoto - Professionelle Passfotos mit KI',
   description:
     'Erstellen Sie professionelle Passfotos, Bewerbungsfotos und Dokumentenfotos kostenlos mit KI. Einfach Selfie hochladen und sofort ein biometrisches Foto erhalten.',
 }

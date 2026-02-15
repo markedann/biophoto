@@ -10,7 +10,7 @@ export function Footer() {
             <Camera className="h-3.5 w-3.5" />
           </div>
           <span className="font-display text-sm font-bold text-foreground">
-            Foto<span className="text-primary">Profi</span>
+            amtly<span className="text-primary">photo</span>
           </span>
         </div>
 

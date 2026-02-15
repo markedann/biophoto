@@ -55,7 +55,7 @@ export function Features() {
             Vorteile
           </span>
           <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
-            Warum FotoProfi?
+            Warum amtlyphoto?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:mt-4 sm:text-base">
             Alles was du fuer das perfekte Dokumentenfoto brauchst -- kostenlos und sofort.
